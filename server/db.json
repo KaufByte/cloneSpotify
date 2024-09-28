@@ -1,0 +1,34 @@
+{
+  "users": [
+    {
+      "id": "014c",
+      "email": "aboba@gmail.com",
+      "password": "123456"
+    },
+    {
+      "id": "a126",
+      "email": "dima@gmail.com",
+      "password": "Dima123"
+    },
+    {
+      "id": "a5d2",
+      "email": "jas23@gmail.com",
+      "password": "jas1234"
+    },
+    {
+      "id": "caf5",
+      "email": "jast23@gmail.com",
+      "password": "Jast23"
+    },
+    {
+      "id": "8668",
+      "email": "johndoe@gmail.com",
+      "password": "John123"
+    },
+    {
+      "id": "1a0b",
+      "email": "arthur23@gmail.com",
+      "password": "Arthur23"
+    }
+  ]
+}
