@@ -1,0 +1,128 @@
+{
+  "users": [
+    {
+      "id": "014c",
+      "email": "aboba@gmail.com",
+      "password": "123456"
+    },
+    {
+      "id": "a126",
+      "email": "dima@gmail.com",
+      "password": "Dima123"
+    },
+    {
+      "id": "a5d2",
+      "email": "jas23@gmail.com",
+      "password": "jas1234"
+    },
+    {
+      "id": "caf5",
+      "email": "jast23@gmail.com",
+      "password": "Jast23"
+    },
+    {
+      "id": "8668",
+      "email": "johndoe@gmail.com",
+      "password": "John123"
+    },
+    {
+      "id": "1a0b",
+      "email": "arthur23@gmail.com",
+      "password": "Arthur23"
+    },
+    {
+      "id": "2756",
+      "email": "sophia26@gmail.com",
+      "password": "Sophia26"
+    },
+    {
+      "id": "5fb8",
+      "email": "obema2008@gmail.com",
+      "password": "Obema2008"
+    }
+  ],
+  "songs": [
+    {
+      "id": 1,
+      "title": "EARTH",
+      "artistId": 1,
+      "image": "https://pbs.twimg.com/media/FsFDqq9WIAUyUDk?format=jpg&name=large",
+      "musicFile": "src/music/EARTH.mp3",
+      "fullscreenImage": "src/fullscreen/Stars.png"
+    },
+    {
+      "id": 2,
+      "title": "Gats",
+      "artistId": 1,
+      "image": "https://i.pinimg.com/736x/55/a8/91/55a8911c5c7f7b278999ce172d5d0265.jpg",
+      "musicFile": "src/music/Gats.mp3",
+      "fullscreenImage": "src/fullscreen/Duel.jpg"
+    },
+    {
+      "id": 3,
+      "title": "Forces",
+      "artistId": 1,
+      "image": "https://cs13.pikabu.ru/post_img/big/2022/12/18/10/1671382907298070929.png",
+      "musicFile": "src/music/Forces.mp3",
+      "fullscreenImage": "src/fullscreen/Fight.jpg"
+    },
+    {
+      "id": 4,
+      "title": "Ball",
+      "artistId": 1,
+      "image": "https://www.kinonews.ru/insimgs/2022/shotimg/shotimg111641_1.jpg",
+      "musicFile": "src/music/Ball.mp3",
+      "fullscreenImage": "src/fullscreen/Stars.png"
+    },
+    {
+      "id": 5,
+      "title": "BEHELIT",
+      "artistId": 1,
+      "image": "https://www.meme-arsenal.com/memes/1319a7ddaeb4e6552af79d93fe25e159.jpg",
+      "musicFile": "src/music/BEHELIT.mp3",
+      "fullscreenImage": "src/fullscreen/Duel.jpg"
+    },
+    {
+      "id": 6,
+      "title": "Murder",
+      "artistId": 1,
+      "image": "https://i.pinimg.com/736x/4d/44/f8/4d44f858594ae32f602362e3ffb2847c.jpg",
+      "musicFile": "src/music/Murder.mp3",
+      "fullscreenImage": "src/fullscreen/Femto.jpg"
+    },
+    {
+      "id": 7,
+      "title": "Kaer Morchen",
+      "artistId": 2,
+      "image": "src/fullscreen/KaerMorhen.jpg",
+      "musicFile": "src/music/Kaer.mp3",
+      "fullscreenImage": "src/fullscreen/Castle.jpg"
+    },
+    {
+      "id": 8,
+      "title": "You're... Immortal?",
+      "artistId": 2,
+      "image": "https://wallpapercave.com/wp/wp1854637.png",
+      "musicFile": "src/music/You're...Immortal.mp3",
+      "fullscreenImage": "src/fullscreen/Phone8.png"
+    }
+  ],
+  "artists": [
+    {
+      "id": 1,
+      "name": "Susumu Hirasawa",
+      "description": "Mixing elements of progressive rock, spacy new age atmospheres, and electro-pop, Susumu Hirasawa is known for his time in bands including the chart-topping new wave group P-Model, as a soundtrack composer, and as a charting solo artist. Hirasawa maintained a solo career thereafter and branched into anime, scoring with projects like the '90s series Berserk, while continuing to release music with P-Model, the latter issued their final album, Music Industrial Wastes: P-Model or Die, in 1999.",
+      "image": "https://i.scdn.co/image/ab6761610000e5ebf0a9a67d18a96b163d395984",
+      "listeners": "317 223",
+      "link": "https://susumuhirasawa.com/"
+    },
+    {
+      "id": 2,
+      "name": "Marcin Przybyłowicz",
+      "description": "A visionary - one of the most streamed Polish composers worldwide - Marcin Przybyłowicz - has already made history in gaming industry. With the release of “The Witcher 3” in 2015, then followed by two expansions - “Heart of Stone” and “Blood and Wine” - he instantly became a household name, gaining an immediate success he then repeated with the release of the score for “Cyberpunk 2077”.",
+      "image": "https://is1-ssl.mzstatic.com/image/thumb/AMCArtistImages211/v4/8e/43/e2/8e43e239-3e07-0cde-ae32-7359a956389b/fd55c8a5-540e-472a-98c2-e9705e78d733_file_cropped.png/486x486bb.png",
+      "listeners": "1,501,267",
+      "link": "https://www.facebook.com/marcinprzybylowicz/?locale=pl_PL"
+    }
+  ]
+}

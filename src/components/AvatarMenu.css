@@ -1,0 +1,53 @@
+.avatar-container {
+  position: relative;
+  display: inline-block;
+}
+
+.avatar-icon {
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.user-email {
+  position: absolute;
+  top: 100%;
+  right: 0; 
+  background-color: #333;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  margin-top: 5px; 
+  white-space: nowrap; 
+  z-index: 999; 
+  max-width: 200px; 
+  overflow: hidden; 
+  text-overflow: ellipsis;
+  visibility: hidden; 
+}
+
+.avatar-container:hover .user-email {
+  visibility: visible; 
+}
+
+.dropdown-menu {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background-color: #333;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  min-width: 120px;
+  z-index: 999;
+}
+
+.menu-item {
+  padding: 10px;
+  color: white;
+  cursor: pointer;
+  text-align: left;
+}
+
+.menu-item:hover {
+  background-color: #444;
+}

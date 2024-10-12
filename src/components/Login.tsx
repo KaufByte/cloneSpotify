@@ -31,8 +31,8 @@ const Login: React.FC = () => {
     try {
       const isValidUser = await checkUserInJSON(email, password);
       if (isValidUser) {
-        console.log("User found in JSON. Logging in...");
-        navigate("/"); 
+        localStorage.setItem("userEmail", email);
+        navigate("/main-page1"); 
       } else {
         setErrorMessage("Invalid email or password.");
       }
@@ -48,8 +48,13 @@ const Login: React.FC = () => {
     setIsLoading(true);
     try {
       const result = await firebase.auth().signInWithPopup(googleProvider);
-      console.log("Signed in with Google:", result.user);
-      navigate("/"); 
+      if(result.user)
+      {
+        localStorage.setItem("userEmail", result.user.email || "");      
+        navigate("/main-page1"); 
+      }else{
+        setErrorMessage("User not found. Please try again.");
+      }
     } catch (error) {
       console.error("Error with Google sign in:", error);
       setErrorMessage("Error with Google sign in. Please try again.");
@@ -62,8 +67,12 @@ const Login: React.FC = () => {
     setIsLoading(true);
     try {
       const result = await firebase.auth().signInWithPopup(facebookProvider);
-      console.log("Signed in with Facebook:", result.user);
-      navigate("/"); 
+     if(result.user){
+      localStorage.setItem("userEmail", result.user.email || "");      
+      navigate("/main-page1"); 
+     }else{
+      setErrorMessage("User not found. Please try again.");
+     }  
     } catch (error) {
       console.error("Error with Facebook sign in:", error);
       setErrorMessage("Error with Facebook sign in. Please try again."); 

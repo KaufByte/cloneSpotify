@@ -1,0 +1,23 @@
+
+
+.main-page {
+    width: 100%;
+    margin: 0 auto;
+    padding: 0;
+    text-align: center;
+}
+
+.main-page{
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-color: black;
+    overflow: hidden;
+}
+
+.main-page .app-container {
+    display: flex;
+    height: 100vh; 
+    overflow: hidden;
+    width: 100%;
+}
