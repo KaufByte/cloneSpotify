@@ -54,6 +54,7 @@ import React, { useEffect, useState } from 'react';
 import './Layout.css';
 import { FaHome, FaSearch, FaBell } from 'react-icons/fa';
 import AvatarMenu from './AvatarMenu';
+import NotificationPortal from './NotificationPortal';
 
 interface LayoutProps {
   setSearchTerm: (term: string) => void; 
@@ -61,6 +62,19 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ setSearchTerm }) => {
   const [userEmail, setUserEmail] = useState<string | null>(null); 
+  const [isPortalOpen,setIsPortalOpen] = useState(false);
+
+  const notifications = [
+    { id: 1, title: 'New Song Added', description: 'Check out the new song by Armin van Buuren!', timestamp: '2 hours ago' },
+    { id: 2, title: 'Playlist Updated', description: 'Your favorite playlist has been updated.', timestamp: '1 day ago' },
+  ];
+
+  const handleBellClick = () => {
+    setIsPortalOpen(!isPortalOpen);
+  };
+  const handleHomeClick = () =>{
+    window.location.reload();
+  }
 
   useEffect(() => {
     const email = localStorage.getItem("userEmail");
@@ -69,7 +83,7 @@ const Layout: React.FC<LayoutProps> = ({ setSearchTerm }) => {
 
   return (
     <div className="spotify-header">
-      <div className="header-left">
+      <div className="header-left" onClick={handleHomeClick}>
         <img
           src="https://storage.googleapis.com/pr-newsroom-wp/1/2023/05/Spotify_Primary_Logo_RGB_White.png"
           alt="Spotify Logo"
@@ -78,7 +92,7 @@ const Layout: React.FC<LayoutProps> = ({ setSearchTerm }) => {
       </div>
 
       <div className="header-center">
-        <div className="home-button">
+        <div className="home-button" onClick={handleHomeClick}>
           <FaHome className="icon home-icon" />
         </div>
         
@@ -94,9 +108,15 @@ const Layout: React.FC<LayoutProps> = ({ setSearchTerm }) => {
       </div>
 
       <div className="header-right">
-        <div className='Bell'>
+        <div className='Bell' onClick={handleBellClick}>
           <FaBell className="icon-bell" />
         </div>
+        {isPortalOpen &&(
+          <NotificationPortal
+            notifications={notifications}
+            onClose={() => setIsPortalOpen(false)}
+          />
+        )}
         {userEmail && <span className="user-email">{userEmail}</span>} 
       <div className='avatar'>
           <AvatarMenu/>

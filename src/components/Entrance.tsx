@@ -1,178 +1,219 @@
 import React, { useState } from "react";
-import firebase, { auth, googleProvider, facebookProvider, firestore } from "../provider/firebase";
-import './Entrance.css';
+import { auth, googleProvider, facebookProvider,signInWithPopup } from "../provider/firebase";
+
 import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
+import { CircularProgress, Typography } from "@mui/material";
+import { styled } from "@mui/system";
 
-interface User {
-  uid: string;
-  email: string | null;
-  displayName: string | null;
-  providerId: string;
-}
+const SignupContainer = styled("div")({
+  backgroundColor: "#0f0f0e",
+  minHeight: "100vh",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  color: "white",
+  padding: "20px",
+});
+
+const SignupBox = styled("div")({
+  width: "100%",
+  maxWidth: 400,
+  textAlign: "center",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+});
+
+const Logo = styled("img")({
+  width: "60px",
+  marginBottom: "20px",
+});
+
+const Heading = styled(Typography)({
+  maxWidth: 300,
+  fontSize: 35,
+  fontWeight: 700,
+  marginBottom: "20px",
+  fontFamily: "SpotifyMixUITitle, sans-serif",
+  textAlign: "center",
+});
+
+const StyledTextField = styled("input")({
+  width: "80%",
+  padding: "14px",
+  marginBottom: "15px",
+  border: "1px solid #fff",
+  borderRadius: "6px",
+  backgroundColor: "#0f0f0e",
+  color: "white",
+  fontSize: "16px",
+  outline: "none",
+});
+
+const SubmitButton = styled("button")(({ disabled }) => ({
+  width: "80%",
+  padding: "14px",
+  backgroundColor: disabled ? "#444" : "#1ed760",
+  color: disabled ? "#aaa" : "#111",
+  borderRadius: "50px",
+  fontWeight: 700,
+  fontSize: "16px",
+  border: "none",
+  cursor: disabled ? "not-allowed" : "pointer",
+  marginBottom: "20px",
+  "&:hover": disabled ? {} : { backgroundColor: "#1db954" },
+  marginTop: 10,
+}));
+
+const AuthButton = styled("button")(({ disabled }) => ({
+  width: "80%",
+  padding: "12px 0",
+  borderRadius: "50px",
+  border: "1px solid #fff",
+  backgroundColor: "#0f0f0e",
+  color: "white",
+  marginBottom: "10px",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  gap: "10px",
+  fontSize: "16px",
+  cursor: disabled ? "not-allowed" : "pointer",
+  "&:hover": disabled ? {} : { backgroundColor: "#222" },
+}));
+
+const Separator = styled("div")({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  width: "100%",
+  maxWidth: "300px",
+  margin: "20px auto",
+  color: "#ccc",
+});
+
+const Line = styled("div")({
+  flex: 1,
+  height: "1px",
+  backgroundColor: "#ccc",
+  maxWidth: "150px",
+});
+
+const SeparatorText = styled("span")({
+  margin: "0 10px",
+  fontSize: "14px",
+  fontWeight: 500,
+  color: "#ccc",
+});
+
+const LoginText = styled(Typography)({
+  marginTop: "20px",
+  color: "#8d8989",
+  fontSize: "14px",
+  textAlign: "center",
+});
 
 const Entrance: React.FC = () => {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [isEmailValid, setIsEmailValid] = useState<boolean>(true);
-  const [errorMessage, setErrorMessage] = useState<string>("");
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState(""); // Новый state для пароля
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-
-  const validateEmail = (email: string): boolean => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
-
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const inputEmail = e.target.value;
-    setEmail(inputEmail);
-
-    if (!validateEmail(inputEmail)) {
-      setIsEmailValid(false);
-      setErrorMessage("This email is invalid. Make sure it's written like example@email.com");
-    } else {
-      setIsEmailValid(true);
-      setErrorMessage("");
-    }
-  };
-
-  const saveUserToJSON = async (email: string, password: string): Promise<void> => {
-    const newUser = {
-      email,
-      password,
-    };
-
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault(); // предотвращаем перезагрузку страницы
+    if (!email || !password) return;
+  
+    setIsLoading(true);
+  
     try {
-      const response = await fetch('http://localhost:3000/users', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+      const newUser = {
+        id: Math.random().toString(16).slice(2, 6), // генерируем случайный ID
+        email,
+        password,
+      };
+  
+      // Отправляем данные в JSON (если используешь json-server)
+      const response = await fetch("http://localhost:5000/users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newUser),
       });
-
-      if (!response.ok) {
-        throw new Error('Error saving user data');
-      }
-
-      console.log("User saved to JSON:", await response.json());
+  
+      if (!response.ok) throw new Error("Ошибка добавления пользователя");
+  
+      console.log("Пользователь добавлен:", newUser);
+      navigate("/login"); // перенаправляем на страницу входа
     } catch (error) {
-      console.error("Error saving user to JSON:", error);
-      setErrorMessage("Error while saving user data.");
-    }
-  };
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
-    e.preventDefault();
-    if (isEmailValid && email && password) {
-      setIsLoading(true);
-      await saveUserToJSON(email, password);
-      navigate("/login");
-      setIsLoading(false);
-    } else {
-      setErrorMessage("Please fill in all fields correctly.");
-    }
-  };
-
-  const handleUserRegistration = async (user: firebase.User | null): Promise<void> => {
-    if (user) {
-      const newUser: User = {
-        uid: user.uid,
-        email: user.email,
-        displayName: user.displayName,
-        providerId: user.providerData[0]?.providerId || "unknown",
-      };
-
-      const userRef = firestore.collection('users').doc(newUser.uid);
-      const userDoc = await userRef.get();
-
-      if (!userDoc.exists) {
-        await userRef.set(newUser);
-        console.log("User added to Firestore:", newUser);
-      }
-    }
-  };
-
-  const signInWithGoogle = async (): Promise<void> => {
-    setIsLoading(true);
-    try {
-      const result = await auth.signInWithPopup(googleProvider);
-      console.log("Signed in with Google:", result.user);
-      await handleUserRegistration(result.user);
-      navigate("/login");
-    } catch (error) {
-      console.error("Error with Google sign in:", error);
-      setErrorMessage("Error with Google sign in. Please try again.");
+      console.error("Ошибка:", error);
     } finally {
       setIsLoading(false);
     }
   };
-
-  const signInWithFacebook = async (): Promise<void> => {
-    setIsLoading(true);
+  
+  const handleGoogleSignIn = async () => {
     try {
-      const result = await auth.signInWithPopup(facebookProvider);
-      console.log("Signed in with Facebook:", result.user);
-      await handleUserRegistration(result.user);
-      navigate("/login");
+        const result = await signInWithPopup(auth, googleProvider);
+        console.log('User:', result.user);
     } catch (error) {
-      console.error("Error with Facebook sign in:", error);
-      setErrorMessage("Error with Facebook sign in. Please try again.");
-    } finally {
-      setIsLoading(false);
+        console.error('Google Sign-in error:', error);
     }
-  };
+};
+
+const handleFacebookSignIn = async () => {
+    try {
+        const result = await signInWithPopup(auth, facebookProvider);
+        console.log('User:', result.user);
+    } catch (error) {
+        console.error('Facebook Sign-in error:', error);
+    }
+};
+
 
   return (
-    <div className="registration-container">
-      <img src="https://storage.googleapis.com/pr-newsroom-wp/1/2023/05/Spotify_Primary_Logo_RGB_White.png" alt="Spotify Logo" />
-      <h1 className="Sign-up">Sign up to start listening</h1>
-      <form onSubmit={handleSubmit}>
-        <div className="input-group">
-          <input
+    <SignupContainer>
+      <SignupBox>
+        <Logo
+          src="https://storage.googleapis.com/pr-newsroom-wp/1/2023/05/Spotify_Primary_Logo_RGB_White.png"
+          alt="Spotify Logo"
+        />
+        <Heading variant="h5">Sign up to start listening</Heading>
+        <form onSubmit={handleSubmit}>
+          <StyledTextField
             type="email"
             placeholder="Email address"
             value={email}
-            onChange={handleEmailChange}
-            className={isEmailValid ? "" : "input-error"}
+            onChange={(e) => setEmail(e.target.value)}
             disabled={isLoading}
           />
-          {!isEmailValid && <p className="error-message">{errorMessage}</p>}
-        </div>
-
-        <div className="input-group">
-          <input
+          {/* Новое поле для пароля */}
+          <StyledTextField
             type="password"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             disabled={isLoading}
           />
-        </div>
-
-        <button type="submit" className="btn-submit" disabled={isLoading}>
-          {isLoading ? "Processing..." : "Next"}
-        </button>
-      </form>
-      <div className="auth-separator">
-        <span>or</span>
-      </div>
-      <div className="auth-options">
-      <button className="btn-google" onClick={signInWithGoogle} disabled={isLoading}>
-          <FcGoogle style={{ marginRight: '8px' }} className="google-icon"/> Continue with Google
-        </button>
-        <button className="btn-facebook" onClick={signInWithFacebook} disabled={isLoading}>
-            <FaFacebook style={{ marginRight: '8px' }}  className="facebook-icon" />
-            Continue with Facebook        
-        </button>
-      </div>
-      <div className="thin-divider"></div>
-      <p className="login-text">
-        Already have an account? <Link to="/login">Log in here</Link>
-      </p>
-    </div>
+          <SubmitButton type="submit" disabled={isLoading}>
+            {isLoading ? <CircularProgress size={24} /> : "Next"}
+          </SubmitButton>
+        </form>
+        <Separator>
+          <Line />
+          <SeparatorText>or</SeparatorText>
+          <Line />
+        </Separator>
+        <AuthButton onClick={handleGoogleSignIn} disabled={isLoading}>
+          <FcGoogle size={22} /> Sign up with Google
+        </AuthButton>
+        <AuthButton onClick={handleFacebookSignIn} disabled={isLoading}>
+          <FaFacebook color="#1877F2" size={22} /> Sign up with Facebook
+        </AuthButton>
+        <LoginText>
+          Already have an account? <Link to="/login">Log in here</Link>
+        </LoginText>
+      </SignupBox>
+    </SignupContainer>
   );
 };
 

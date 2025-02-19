@@ -1,7 +1,6 @@
-
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
-import 'firebase/compat/firestore';
+import { initializeApp } from 'firebase/app';
+import { getAuth, GoogleAuthProvider, FacebookAuthProvider, signInWithPopup } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
     apiKey: "AIzaSyDClMTFgLYeHv60pNoMyk9tsaUG3qwuz8k",
@@ -13,11 +12,12 @@ const firebaseConfig = {
     measurementId: "G-52DFEMTQCQ"
 };
 
-export { firebaseConfig };
-firebase.initializeApp(firebaseConfig);
 
-export const auth = firebase.auth();
-export const firestore = firebase.firestore();
-export const googleProvider = new firebase.auth.GoogleAuthProvider();
-export const facebookProvider = new firebase.auth.FacebookAuthProvider();
-export default firebase;
+const app = initializeApp(firebaseConfig);
+
+
+export const auth = getAuth(app);
+export const firestore = getFirestore(app);
+export const googleProvider = new GoogleAuthProvider();
+export const facebookProvider = new FacebookAuthProvider();
+export { signInWithPopup }; 
