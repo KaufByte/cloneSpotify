@@ -1,0 +1,43 @@
+/* main-page.css */
+
+/* --- Общие стили для главной страницы --- */
+.main-page {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  background-color: black;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-page .app-container {
+  display: flex;
+  flex-grow: 1;
+  overflow: hidden;
+  width: 100%;
+  max-width: 75rem; /* 1200px -> 75rem */
+  margin: 0 auto;
+}
+
+.songs-container {
+  padding-top: 1.125rem; /* 18px -> 1.125rem */
+  flex: 1;
+  min-width: 16.875rem; /* 270px -> 16.875rem */
+  overflow-y: auto;
+}
+
+/* 🔥 Адаптация для экранов ≤ 1024px */
+@media screen and (max-width: 64rem) { /* 1024px -> 64rem */
+  .main-page .app-container {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .songs-container,
+  .content {
+    width: 100%;
+  }
+}
